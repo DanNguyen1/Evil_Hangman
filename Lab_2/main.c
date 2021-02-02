@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 
 	MY_STRING hMy_string2 = NULL;
 
-	hMy_string = my_string_init_c_string("hello");
+	hMy_string = my_string_init_c_string("the");
 
 	hMy_string2 = my_string_init_c_string("hello");
 
