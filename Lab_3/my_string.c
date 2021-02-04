@@ -159,17 +159,18 @@ Status my_string_push_back(MY_STRING hMy_string, char ch)
 Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 {
 	My_string* pMy_string = (My_string*)hMy_string;
+	pMy_string->size = 0;
 
 	char ch = fgetc(fp);
-	pMy_string->size = 0;
 
 	while(ch == ' ' || ch == '\n')
 	{
 		ch = fgetc(fp);
 	}
 
-	if (ch != EOF)
+	if (ch != EOF && ch != ' ' && ch != '\n')
 	{
+		//printf("%c\n", ch);
 		pMy_string->data[pMy_string->size] = ch;
 		++pMy_string->size;
 	}
@@ -182,24 +183,20 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 			my_string_push_back(hMy_string, ch);	
 		}
 		ch = fgetc(fp);
+		//printf("%c\n", ch);
 		pMy_string->data[pMy_string->size] = ch;
 		++pMy_string->size;
 	}
 	
-	/*
-	if(ch == ' ' && pMy_string->size != 0){
-		ungetc(ch, fp);
-		return SUCCESS;
-	}
-
-	return FAILURE;
-	*/
-	if(pMy_string->size == 0)
+	if (pMy_string->size == 0)
 	{
+		//printf("Failed.\n");
+		ungetc(ch, fp);
 		return FAILURE;
 	}
 
 	ungetc(ch, fp);
+
 	return SUCCESS;
 }
 
@@ -214,10 +211,9 @@ Status my_string_insertion(MY_STRING hMy_string, FILE* fp)
 		return FAILURE;
 	}
 	
-	for(i = 0; i < pMy_string->size; ++i){
+	for(i = 0; i < pMy_string->size - 1; ++i){
 		fputc(pMy_string->data[i], fp);
 	}
-	fputc(' ', fp);
 
 	return SUCCESS;
 }
