@@ -170,7 +170,6 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 
 	if (ch != EOF && ch != ' ' && ch != '\n')
 	{
-		//printf("%c\n", ch);
 		pMy_string->data[pMy_string->size] = ch;
 		++pMy_string->size;
 	}
@@ -183,7 +182,6 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 			my_string_push_back(hMy_string, ch);	
 		}
 		ch = fgetc(fp);
-		//printf("%c\n", ch);
 		pMy_string->data[pMy_string->size] = ch;
 		++pMy_string->size;
 	}
@@ -197,6 +195,8 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 
 	ungetc(ch, fp);
 
+	pMy_string->size -= 1;
+
 	return SUCCESS;
 }
 
@@ -206,12 +206,12 @@ Status my_string_insertion(MY_STRING hMy_string, FILE* fp)
 	
 	int i;
 
-	if (pMy_string->size == 0)
+	if (pMy_string->size <= 0)
 	{
 		return FAILURE;
 	}
 	
-	for(i = 0; i < pMy_string->size - 1; ++i){
+	for(i = 0; i < pMy_string->size; ++i){
 		fputc(pMy_string->data[i], fp);
 	}
 
