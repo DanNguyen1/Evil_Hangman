@@ -125,16 +125,53 @@ int my_string_compare(MY_STRING hLeft_string, MY_STRING hRight_string)
 	return pLeft_string->size - pRight_string->size;
 }
 
+Status my_string_pop_back(MY_STRING hMy_string)
+{
+	return FAILURE;
+	//FIX THIS//
+}
+
+Status my_string_push_back(MY_STRING hMy_string, char ch)
+{
+	My_string* pMy_string = (My_string*)hMy_string;
+	char* temp;
+	int i;
+
+	temp = (char*)malloc(sizeof(char) * pMy_string->capacity * 2);
+	if (temp == NULL)
+	{
+		return FAILURE;
+	}
+	for (i = 0; i < pMy_string->size; ++i)
+	{
+		temp[i] = pMy_string->data[i];
+	}
+	free(pMy_string->data);
+	pMy_string->data = temp;
+	pMy_string->capacity *= 2;
+
+	pMy_string->data[pMy_string->size] = ch;
+	pMy_string->size++;
+
+	return SUCCESS;
+}
+
 Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 {
 	My_string* pMy_string = (My_string*)hMy_string;
 
 	char ch = fgetc(fp);
-	int count = 0;
+	pMy_string->size = 0;
 
 	while(ch == ' ' || ch == '\n')
 	{
 		ch = fgetc(fp);
+	}
+
+	if (ch != EOF)
+	{
+		pMy_string->data[pMy_string->size] = ch;
+		++pMy_string->size;
 	}
 	
 	while(ch != EOF && ch != ' ' && ch != '\n')
@@ -142,31 +179,28 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 		//if size>=capacity, free data and malloc a larger space
 		if (pMy_string->size >= pMy_string->capacity)
 		{
-			char* temp = (char*)malloc(sizeof(char) * pMy_string->capacity * 2);
-			if (temp == NULL)
-			{
-				return FAILURE;
-			}
-			for(int i = 0; i < pMy_string->size; ++i)
-			{
-				temp[i] = pMy_string->data[i];
-			}
-			free(pMy_string->data);
-			pMy_string->data = temp;
-			pMy_string->data[count] = ch;
-			pMy_string->capacity *= 2;
+			my_string_push_back(hMy_string, ch);	
 		}
 		ch = fgetc(fp);
-		++count;
+		pMy_string->data[pMy_string->size] = ch;
 		++pMy_string->size;
 	}
-
-	if(ch == ' ' && count != 0){
+	
+	/*
+	if(ch == ' ' && pMy_string->size != 0){
 		ungetc(ch, fp);
 		return SUCCESS;
 	}
 
 	return FAILURE;
+	*/
+	if(pMy_string->size == 0)
+	{
+		return FAILURE;
+	}
+
+	ungetc(ch, fp);
+	return SUCCESS;
 }
 
 Status my_string_insertion(MY_STRING hMy_string, FILE* fp)
@@ -174,6 +208,11 @@ Status my_string_insertion(MY_STRING hMy_string, FILE* fp)
 	My_string* pMy_string = (My_string*)hMy_string;
 	
 	int i;
+
+	if (pMy_string->size == 0)
+	{
+		return FAILURE;
+	}
 	
 	for(i = 0; i < pMy_string->size; ++i){
 		fputc(pMy_string->data[i], fp);
