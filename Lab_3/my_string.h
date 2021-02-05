@@ -1,5 +1,7 @@
 #ifndef MY_STRING_H
 #define MY_STRING_H
+#ifndef STATUS_H
+#define STATUS_H
 typedef void * MY_STRING;
 enum status{FAILURE, SUCCESS};
 typedef enum status Status;
@@ -20,3 +22,4 @@ Status my_string_insertion(MY_STRING hMy_string, FILE* fp);
 void my_string_destroy(MY_STRING* phMy_string);
 
 #endif//MY_STRING_H
+#endif//STATUS_H

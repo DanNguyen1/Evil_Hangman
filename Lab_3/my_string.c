@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "my_string.h"
 
 typedef struct string{
@@ -163,12 +164,12 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 
 	char ch = fgetc(fp);
 
-	while(ch == ' ' || ch == '\n')
+	while(isspace(ch))
 	{
 		ch = fgetc(fp);
 	}
 
-	if (ch != EOF && ch != ' ' && ch != '\n')
+	if (ch != EOF)
 	{
 		pMy_string->data[pMy_string->size] = ch;
 		++pMy_string->size;
@@ -179,24 +180,34 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 		//if size>=capacity, free data and malloc a larger space
 		if (pMy_string->size >= pMy_string->capacity)
 		{
-			my_string_push_back(hMy_string, ch);	
+			ch = fgetc(fp);
+			if (ch == ' ' || ch == '\n' || ch == EOF)
+			{
+				break;
+			}
+			my_string_push_back(hMy_string, ch);
+
 		}
-		ch = fgetc(fp);
-		pMy_string->data[pMy_string->size] = ch;
-		++pMy_string->size;
+		else
+		{
+	
+			ch = fgetc(fp);
+			if (ch == ' ' || ch == '\n' || ch == EOF)
+			{
+				break;
+			}
+			pMy_string->data[pMy_string->size] = ch;
+			++pMy_string->size;
+		}
 	}
 	
 	if (pMy_string->size == 0)
 	{
-		//printf("Failed.\n");
-		ungetc(ch, fp);
 		return FAILURE;
 	}
 
 	ungetc(ch, fp);
-
-	pMy_string->size -= 1;
-
+	
 	return SUCCESS;
 }
 
@@ -210,7 +221,7 @@ Status my_string_insertion(MY_STRING hMy_string, FILE* fp)
 	{
 		return FAILURE;
 	}
-	
+
 	for(i = 0; i < pMy_string->size; ++i){
 		fputc(pMy_string->data[i], fp);
 	}
