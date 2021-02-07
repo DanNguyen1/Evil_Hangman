@@ -2,9 +2,14 @@
 #define MY_STRING_H
 #ifndef STATUS_H
 #define STATUS_H
+#ifndef BOOLEAN_H
+#define BOOLEAN_H
+
 typedef void * MY_STRING;
 enum status{FAILURE, SUCCESS};
 typedef enum status Status;
+enum boolean{FALSE, TRUE};
+typedef enum boolean Boolean;
 
 MY_STRING my_string_init_default(void);
 MY_STRING my_string_init_c_string(const char* c_string);
@@ -21,8 +26,12 @@ char* my_string_c_str(MY_STRING hMy_string);
 
 Status my_string_extraction(MY_STRING hMy_string, FILE* fp);
 Status my_string_insertion(MY_STRING hMy_string, FILE* fp);
+Status my_string_concat(MY_STRING hResult, MY_STRING hAppend);
+
+Boolean my_string_empty(MY_STRING hMy_string);
 
 void my_string_destroy(MY_STRING* phMy_string);
 
 #endif//MY_STRING_H
 #endif//STATUS_H
+#endif//BOOLEAN_H

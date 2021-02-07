@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 #include "my_string.h"
 
 typedef struct string{
@@ -276,6 +277,46 @@ Status my_string_insertion(MY_STRING hMy_string, FILE* fp)
 	}
 
 	return SUCCESS;
+}
+
+Status my_string_concat(MY_STRING hResult, MY_STRING hAppend)
+{
+	My_string* pResult = (My_string*)hResult;
+	My_string* pAppend = (My_string*)hAppend;
+	char* temp;
+	int i, j;
+
+	while(pResult->capacity <= pResult->size + pAppend->size)
+	{
+		temp = (char*)malloc(sizeof(char) * (pResult->capacity * 2));
+		if (temp == NULL)
+		{
+			return FAILURE;
+		}
+		for(i = 0; i < pResult->size; ++i)
+		{
+			temp[i] = pResult->data[i];
+		}
+		free(pResult->data);
+		pResult->data = temp;
+		pResult->capacity *= 2;
+	}
+
+	for (j = 0; j < pAppend->size; ++j)
+	{
+		pResult->data[pResult->size + j] = pAppend->data[j];
+	}
+
+	pResult->size += pAppend->size;
+
+	return SUCCESS;
+}
+
+Boolean my_string_empty(MY_STRING hMy_string)
+{
+	My_string* pMy_string = (My_string*)hMy_string;
+
+	return (Boolean)(pMy_string->size <= 0);
 }
 
 /**
