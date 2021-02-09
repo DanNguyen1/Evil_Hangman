@@ -25,7 +25,7 @@ MY_STRING my_string_init_default(void)
 	{
 		pMy_string->size = 0;
 		pMy_string->capacity = 7;
-		pMy_string->data = (char*)malloc(sizeof(char) * pMy_string->capacity);
+		pMy_string->data = (char*)malloc(sizeof(char) * (unsigned long)pMy_string->capacity);
 		if(pMy_string->data == NULL){
 			free(pMy_string);
 			pMy_string = NULL;
@@ -53,14 +53,14 @@ MY_STRING my_string_init_c_string(const char* c_string)
 		++len;
 	}
 
-	My_string* pMy_string;
+	My_string* pMy_string = (My_string*)malloc(sizeof(My_string)) ;
 
-	pMy_string = (My_string*)malloc(sizeof(My_string));
+	//pMy_string = (My_string*)malloc(sizeof(My_string));
 	if (pMy_string != NULL)
 	{
 		pMy_string->size = len;
 		pMy_string->capacity = len + 1;
-		pMy_string->data = (char*)malloc(sizeof(char) * pMy_string->capacity);
+		pMy_string->data = (char*)malloc(sizeof(char) *(unsigned long)pMy_string->capacity);
 		if(pMy_string->data == NULL) //if malloc above fails
 		{
 			free(pMy_string);
@@ -127,10 +127,19 @@ int my_string_compare(MY_STRING hLeft_string, MY_STRING hRight_string)
 	return pLeft_string->size - pRight_string->size;
 }
 
+/**
+ * push back one index of the c-string array
+ *
+ * @param hMy_string
+ * 	handle to object that contains array to be pushed back
+ *
+ * @return
+ * 	returns if string was successfully able to be popped back
+ */
 Status my_string_pop_back(MY_STRING hMy_string)
 {
 	My_string* pMy_string = (My_string*)hMy_string;
-	if (my_string_get_size <= 0)
+	if (pMy_string->size <= 0)
 	{
 		return FAILURE;
 	}
@@ -138,13 +147,25 @@ Status my_string_pop_back(MY_STRING hMy_string)
 	return SUCCESS;
 }
 
+/**
+ * allocate more capacity for the array in the object and place a character in the newly resized array
+ *
+ * @param hMy_string
+ * 	valid My_string object handle
+ *
+ * @param ch
+ * 	character to be placed into array after resize
+ *
+ * @return
+ * 	returns if push back was successful in resizing and placing
+ */
 Status my_string_push_back(MY_STRING hMy_string, char ch)
 {
 	My_string* pMy_string = (My_string*)hMy_string;
 	char* temp;
 	int i;
 
-	temp = (char*)malloc(sizeof(char) * pMy_string->capacity * 2);
+	temp = (char*)malloc(sizeof(char) *(unsigned long)( pMy_string->capacity * 2));
 	if (temp == NULL)
 	{
 		return FAILURE;
@@ -163,6 +184,18 @@ Status my_string_push_back(MY_STRING hMy_string, char ch)
 	return SUCCESS;
 }
 
+/**
+ * get the address at a certain point in the array of a My_string object
+ *
+ * @param hMy_string
+ * 	valid My_string object handle
+ *
+ * @param index
+ * 	index of array to be found
+ *
+ * @return
+ * 	return address of array at given index
+ */
 char* my_string_at(MY_STRING hMy_string, int index)
 {
 	My_string* pMy_string = (My_string*)hMy_string;
@@ -175,6 +208,15 @@ char* my_string_at(MY_STRING hMy_string, int index)
 	return &(pMy_string->data[index]);
 }
 
+/**
+ * return the array inside a My_string object as a NULL-terminated c-string
+ *
+ * @param hMy_string
+ * 	valid My_string object handle
+ *
+ * @return
+ * 	return the address of the beginning of the NUll-terminated c-string
+ */
 char* my_string_c_str(MY_STRING hMy_string)
 {
 	My_string* pMy_string = (My_string*)hMy_string;
@@ -189,7 +231,7 @@ char* my_string_c_str(MY_STRING hMy_string)
 	if (pMy_string->size >= pMy_string->capacity)
 	{
 		printf("resizing My_string->data\n");
-		temp = (char*)malloc(sizeof(char) * (pMy_string->capacity + 1));
+		temp = (char*)malloc(sizeof(char) * (unsigned long)(pMy_string->capacity + 1));
 		if (temp == NULL)
 		{
 			return NULL;
@@ -209,16 +251,28 @@ char* my_string_c_str(MY_STRING hMy_string)
 	return &pMy_string->data[0];
 }
 
+/**
+ * extract a token from a file and places it into the array of a My_string object
+ *
+ * @param hMy_string
+ * 	valid My_string object handle
+ *
+ * @param fp
+ * 	valid file handle
+ *
+ * @return
+ * 	returns if extraction was successful (SUCCESS) or failed (FAILURE)
+ */
 Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 {
 	My_string* pMy_string = (My_string*)hMy_string;
 	pMy_string->size = 0;
 
-	char ch = fgetc(fp);
+	char ch = (char)fgetc(fp);
 
 	while(isspace(ch))
 	{
-		ch = fgetc(fp);
+		ch = (char)fgetc(fp);
 	}
 
 	if (ch != EOF)
@@ -232,7 +286,7 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 		//if size>=capacity, free data and malloc a larger space
 		if (pMy_string->size >= pMy_string->capacity)
 		{
-			ch = fgetc(fp);
+			ch = (char)fgetc(fp);
 			if (ch == ' ' || ch == '\n' || ch == EOF)
 			{
 				break;
@@ -241,7 +295,7 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 		}
 		else
 		{
-			ch = fgetc(fp);
+			ch = (char)fgetc(fp);
 			if (ch == ' ' || ch == '\n' || ch == EOF)
 			{
 				break;
@@ -261,6 +315,18 @@ Status my_string_extraction(MY_STRING hMy_string, FILE* fp)
 	return SUCCESS;
 }
 
+/**
+ * inserts string array of a My_string object into a given file
+ *
+ * @param hMy_string
+ * 	valid My_string object handle
+ *
+ * @param fp
+ * 	valid FILE handle which array will be inserted into
+ *
+ * @return
+ * 	returns if insertion was successful (SUCCESS) or failed (FAILURE)
+ */
 Status my_string_insertion(MY_STRING hMy_string, FILE* fp)
 {
 	My_string* pMy_string = (My_string*)hMy_string;
@@ -279,6 +345,18 @@ Status my_string_insertion(MY_STRING hMy_string, FILE* fp)
 	return SUCCESS;
 }
 
+/**
+ * concatenates two c-strings from two My_string object
+ *
+ * @param hResult
+ * 	valid My_string object handle which second My_string object string will be concatenated to
+ *
+ * @param hAppend
+ * 	valid My_string object handle which will be concatenated to the first string
+ *
+ * @return
+ * 	returns if concatenation is succesful (SUCCESS) or failed (FAILURE)
+ */
 Status my_string_concat(MY_STRING hResult, MY_STRING hAppend)
 {
 	My_string* pResult = (My_string*)hResult;
@@ -288,7 +366,7 @@ Status my_string_concat(MY_STRING hResult, MY_STRING hAppend)
 
 	while(pResult->capacity <= pResult->size + pAppend->size)
 	{
-		temp = (char*)malloc(sizeof(char) * (pResult->capacity * 2));
+		temp = (char*)malloc(sizeof(char) * (unsigned long)(pResult->capacity * 2));
 		if (temp == NULL)
 		{
 			return FAILURE;
@@ -312,6 +390,15 @@ Status my_string_concat(MY_STRING hResult, MY_STRING hAppend)
 	return SUCCESS;
 }
 
+/**
+ * checks if string located inside given My_string is empty
+ *
+ * @param hMy_string
+ * 	valid My_string object handle
+ *
+ * @return
+ * 	returns TRUE if string inside My_string object is empty and FALSE if string is not empty
+ */
 Boolean my_string_empty(MY_STRING hMy_string)
 {
 	My_string* pMy_string = (My_string*)hMy_string;

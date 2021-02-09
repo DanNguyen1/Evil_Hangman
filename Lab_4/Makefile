@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -g -Wall --std=c99 -Weverything
+CFLAGS = -g --std=c99 -Weverything
 OBJECTS = main.o my_string.o
 
 string_driver: $(OBJECTS)
