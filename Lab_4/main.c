@@ -48,7 +48,7 @@ int main(void)
 	else if (test_2 == 1)
 	{
 		printf("Test passed.\n");
-		printf("TEST 3 FINISHED\n\n\n\n\n");
+		printf("TEST 3 FINISHED\n\n");
 	}
 
 	printf("ALL TESTS COMPLETE\n");
