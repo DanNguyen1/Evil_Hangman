@@ -111,20 +111,58 @@ int my_string_get_size(MY_STRING hMy_string){
  * compare the size of two c-strings
  *
  * @param hLeft_string
- * 	handle to object that contains the first(left) string to be compared
+ *      handle to object that contains the first(left) string to be compared
  *
  * @param hRight_string
- * 	handle to object that contains the second(right) sring to be compared
+ *      handle to object that contains the second(right) sring to be compared
  *
  * @return
- * 	return the difference between sizes of the c-string (does not include null character)
+ *      return the difference between lexiographically sizes of the c-string (does not include null character)
  */
 int my_string_compare(MY_STRING hLeft_string, MY_STRING hRight_string)
 {
-	My_string* pLeft_string = (My_string*)hLeft_string;
-	My_string* pRight_string = (My_string*)hRight_string;
+        int i = 0;
+        int difference = 0;
+        My_string* pLeft_string = (My_string*)hLeft_string;
+        My_string* pRight_string = (My_string*)hRight_string;
 
-	return pLeft_string->size - pRight_string->size;
+        while(i < pLeft_string->size && i < pRight_string->size)
+        {
+                difference = (int)pLeft_string->data[i] - (int)pRight_string->data[i];
+                if (difference != 0)
+                {
+                        break;
+                }
+                ++i;
+        }
+
+        if ((i == pLeft_string->size || i == pRight_string->size) && difference == 0)
+        {
+                if (pLeft_string->size > pRight_string->size)
+                {
+                        return 1;
+                }
+                else if (pLeft_string->size < pRight_string->size)
+                {
+                        return -1;
+                }
+                else
+                {
+                        return 0;
+                }
+        }
+
+        else
+        {
+                if (difference < 0)
+                {
+                        return -1;
+                }
+                else
+                {
+                        return 1;
+                }
+        }
 }
 
 /**

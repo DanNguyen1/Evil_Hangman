@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 	FILE* fp;
 
 	hMy_string = my_string_init_default();
-	fp = fopen("dictionary.txt", "r");
+	fp = fopen("../dictionary.txt", "r");
 
 	while(my_string_extraction(hMy_string,fp))
 	{
