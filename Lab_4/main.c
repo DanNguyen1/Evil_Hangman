@@ -102,6 +102,8 @@ int test1(void)
 
 	my_string_destroy(&hMy_string);
 	my_string_destroy(&hMy_string2);
+	hMy_string = NULL;
+	hMy_string2 = NULL;
 
 	return 1;
 }
@@ -129,6 +131,10 @@ int test2(void)
 	}
 
 	printf("\n\n");
+
+	my_string_destroy(&hMy_string);
+	hMy_string = NULL;
+	fclose(fp);
 
 	return 1;
 }
@@ -175,6 +181,13 @@ int test3(void)
 	{
 		printf("string is empty!\n\n");
 	}
+
+	my_string_destroy(&hMy_string);
+	my_string_destroy(&hMy_string2);
+
+	hMy_string = NULL;
+	hMy_string2 = NULL;
+
 	return 1;
 }
 
