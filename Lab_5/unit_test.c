@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "unit_test.h"
-int main(int argc, char* argv[])
+int main(void)
 {
 	Status (*tests[])(char*, int) =
 	{

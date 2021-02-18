@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "unit_test.h"
 
 Status test_init_default_returns_nonNULL(char* buffer, int length)
