@@ -168,11 +168,18 @@ int test3(void)
 	{
 		return 0;
 	}
-	printf("printing concat word...\n");
+	printf("printing concat word by c_string...\n");
 	printf("%s\n\n", my_string_c_str(hMy_string));
 
+	printf("printing concat word by my_string_at...\n");
+	for(i = 0; i < (int)my_string_get_size(hMy_string); i++)
+	{
+		printf("%c", *my_string_at(hMy_string, i));
+	}
+	
+	printf("\n\n");
 	printf("removing all letters from string using pop back...\n");
-	for (i = 0; i < (int)my_string_get_size; ++i)
+	for (i = 0; i < (int)my_string_get_size(hMy_string); ++i)
 	{
 		my_string_pop_back(hMy_string);
 	}
