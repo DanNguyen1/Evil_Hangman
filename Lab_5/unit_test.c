@@ -9,7 +9,15 @@ int main(void)
 		test_get_capacity_on_init_default_returns_7,
 		test_init_c_string_helloworld_returns_nonNULL,
 		test_get_size_on_init_c_string_helloworld_returns_10,
-		test_get_capacity_on_init_c_string_helloworld_returns_11
+		test_get_capacity_on_init_c_string_helloworld_returns_11,
+		test_compare_two_strings_returns_0,
+		test_compare_two_strings_returns_less_than_0,
+		test_compare_two_strings_returns_greater_than_0,
+		test_destroy_does_not_leave_dangling_pointer,
+		test_my_string_extraction_successfully_extracts,
+		test_my_string_insertion_successfully_inserts,
+		test_my_string_extraction_extracts_correct_word
+
 	};
 	int number_of_functions = sizeof(tests) / sizeof(tests[0]);
 	int i;
