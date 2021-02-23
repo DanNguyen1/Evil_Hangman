@@ -5,7 +5,11 @@ int main(void)
 	Status (*tests[])(char*, int) =
 	{
 		test_init_default_returns_nonNULL,
-		test_get_size_on_init_default_returns_0
+		test_get_size_on_init_default_returns_0,
+		test_get_capacity_on_init_default_returns_7,
+		test_init_c_string_helloworld_returns_nonNULL,
+		test_get_size_on_init_c_string_helloworld_returns_10,
+		test_get_capacity_on_init_c_string_helloworld_returns_11
 	};
 	int number_of_functions = sizeof(tests) / sizeof(tests[0]);
 	int i;
