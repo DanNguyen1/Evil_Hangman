@@ -351,4 +351,189 @@ Status test_my_string_extraction_extracts_correct_word(char* buffer, unsigned lo
 	return status;
 }
 
+Status test_my_string_push_back_returns_SUCCESS(char* buffer, unsigned long length)
+{
+	MY_STRING hString = NULL;
+	hString = my_string_init_default();
+	Status status;
+
+	status = my_string_push_back(hString, '@');
+
+	if (status == FAILURE)
+	{
+		printf("Expected to return SUCCESS (function worked) after calling my_string_push_back\n");
+		strncpy(buffer, "test_my_string_push_back_returns_SUCCESS\n"
+				"Did not successfully push back and returned FAILURE\n", length);
+	}
+
+	else
+	{
+		strncpy(buffer, "test_my_string_push_back_returns_SUCCESS\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;
+}
+
+Status test_my_string_push_back_doubles_capacity(char* buffer, unsigned long length)
+{
+	MY_STRING hString = NULL;
+	hString = my_string_init_default();
+	Status status;
+
+	my_string_push_back(hString, '@');
+
+	if (my_string_get_capacity(hString) != 14)
+	{
+		status = FAILURE;
+		printf("Expected to update capacity to 14 after push back, but did not update capacity correctly\n");
+		strncpy(buffer, "test_my_string_push_back_doubles_capacity\n"
+				"Did not correctly update capacity after calling push back\n", length);
+	}
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_push_back_doubles_capacity\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;
+
+}
+
+Status test_my_string_push_back_copies_old_string_and_adds_new_char(char* buffer, unsigned long length){
+	MY_STRING hString = NULL;
+	hString = my_string_init_c_string("righto");
+	char* string;
+	int compare;
+	Status status;
+
+	my_string_push_back(hString, 'n');
+
+	string = my_string_c_str(hString);
+
+	compare = strcmp(string, "righton");
+
+	if(compare != 0)
+	{
+		status = FAILURE;
+		printf("Expected to update string from \"righto\" to \"righton\" but did not update the string correctly after push back\n");
+		strncpy(buffer, "test_my_string_push_back_copies_old_string_and_adds_new_char\n"
+				"Did not correctly add a new character to the end of string\n", length);
+	}
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_push_back_copies_old_string_and_adds_new_char\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;
+}
+
+Status test_my_string_pop_back_returns_SUCCESS(char* buffer, unsigned long length)
+{
+	MY_STRING hString = NULL;
+	hString = my_string_init_c_string("hello");
+	Status status;
+
+	status = my_string_pop_back(hString);
+
+	if (status != SUCCESS)
+	{
+		printf("Expected to return SUCCESS (function worked) after calling my_string_pop_back\n");
+                strncpy(buffer, "test_my_string_pop_back_returns_SUCCESS\n"
+                                "Did not successfully pop back and returned FAILURE\n", length);
+	}
+	else
+	{
+		strncpy(buffer, "test_my_string_pop_back_returns_SUCCESS\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;
+}
+
+
+Status test_my_string_pop_back_returns_FAILURE_for_empty_string(char* buffer, unsigned long length)
+{
+	MY_STRING hString = NULL;
+	hString = my_string_init_default();
+	Status status;
+
+	status = my_string_pop_back(hString);
+
+	if (status != FAILURE)
+	{
+		status = FAILURE;
+		printf("Expected to return FAILURE (function failed) after attempting to pop back empty string\n");
+		strncpy(buffer, "test_my_string_pop_back_returns_FAILURE_for_empty_string\n"
+				"Did not return FAILURE and exit function after attempting to pop empty string\n", length);
+	}
+
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_pop_back_returns_FAILURE_for_empty_string\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;
+}
+
+Status test_my_string_pop_back_decreases_size_by_1(char* buffer, unsigned long length)
+{
+	MY_STRING hString = NULL;
+	hString = my_string_init_c_string("hello");
+	Status status;
+
+	my_string_pop_back(hString);
+
+	if(my_string_get_size(hString) != 4)
+	{
+		status = FAILURE;
+		printf("Expected to get size 4 after my_string_pop_back\n");
+		strncpy(buffer, "test_my_string_pop_back_decreases_size_by_1\n"
+				"Did not correctly adjust size after pop back\n", length);
+	}
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_pop_back_decreases_size_by_1\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;
+}
+
+Status test_my_string_pop_back_has_correct_string_after_pop(char* buffer, unsigned long length)
+{
+	MY_STRING hString = NULL;
+	hString = my_string_init_c_string("hellos");
+	char* string;
+	int compare;
+	Status status;
+
+	my_string_pop_back(hString);
+
+	string = my_string_c_str(hString);
+
+	compare = strcmp(string, "hello");
+
+	if (compare != 0)
+	{
+		status = FAILURE;
+		printf("Expected to get string \"hello\" after pop back, but did not get correct string\n");
+		strncpy(buffer, "test_my_string_pop_back_has_correct_string_after_pop\n"
+				"Did not correctly get correct string after pop back\n", length);
+	}
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_pop_back_has_correct_string_after_pop\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;
+}
 

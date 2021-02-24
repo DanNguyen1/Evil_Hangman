@@ -2,7 +2,7 @@
 #include "unit_test.h"
 int main(void)
 {
-	Status (*tests[])(char*, int) =
+	Status (*tests[])(char*, unsigned long) =
 	{
 		test_init_default_returns_nonNULL,
 		test_get_size_on_init_default_returns_0,
@@ -16,8 +16,14 @@ int main(void)
 		test_destroy_does_not_leave_dangling_pointer,
 		test_my_string_extraction_successfully_extracts,
 		test_my_string_insertion_successfully_inserts,
-		test_my_string_extraction_extracts_correct_word
-
+		test_my_string_extraction_extracts_correct_word,
+		test_my_string_push_back_returns_SUCCESS,
+		test_my_string_push_back_doubles_capacity,
+		test_my_string_push_back_copies_old_string_and_adds_new_char,
+		test_my_string_pop_back_returns_SUCCESS,
+		test_my_string_pop_back_returns_FAILURE_for_empty_string,
+		test_my_string_pop_back_decreases_size_by_1,
+		test_my_string_pop_back_has_correct_string_after_pop
 	};
 	int number_of_functions = sizeof(tests) / sizeof(tests[0]);
 	int i;
