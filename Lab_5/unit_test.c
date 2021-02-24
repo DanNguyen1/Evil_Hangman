@@ -23,7 +23,12 @@ int main(void)
 		test_my_string_pop_back_returns_SUCCESS,
 		test_my_string_pop_back_returns_FAILURE_for_empty_string,
 		test_my_string_pop_back_decreases_size_by_1,
-		test_my_string_pop_back_has_correct_string_after_pop
+		test_my_string_pop_back_has_correct_string_after_pop,
+		test_my_string_at_returns_correct_char_from_string,
+		test_my_string_c_str_returns_correct_c_string,
+		test_my_string_concat_returns_correct_concat_c_string,
+		test_my_string_concat_returns_correct_size_after_concat,
+		test_my_string_empty_returns_TRUE_for_empty_string
 	};
 	int number_of_functions = sizeof(tests) / sizeof(tests[0]);
 	int i;

@@ -537,3 +537,151 @@ Status test_my_string_pop_back_has_correct_string_after_pop(char* buffer, unsign
 	return status;
 }
 
+Status test_my_string_at_returns_correct_char_from_string(char* buffer, unsigned long length)
+{
+	MY_STRING hString = NULL;
+	hString = my_string_init_c_string("qwerty");
+	Status status;
+
+	if (*my_string_at(hString, 4) != 't')
+	{
+		status = FAILURE;
+		printf("Expected to get char \'t\' after finding at, but got different char\n");
+		strncpy(buffer, "test_my_string_at_returns_correct_char_from_string\n"
+				"Did not get correct char after function call my_string_at\n", length);
+	}
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_at_returns_correct_char_from_string\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;	
+}
+
+Status test_my_string_c_str_returns_correct_c_string(char* buffer, unsigned long length)
+{
+	MY_STRING hString = NULL;
+	hString = my_string_init_c_string("hello");
+	char* string;
+	int compare;
+	Status status;
+
+	string = my_string_c_str(hString);
+
+	compare = strcmp(string, "hello");
+
+	if (compare != 0)
+	{
+		status = FAILURE;
+		printf("Expected to get string \"hello\" and return as c-string but returned different string\n");
+		strncpy(buffer, "test_my_string_c_str_returns_correct_c_string\n"
+				"Did not return correct string after calling function my_string_c_str\n", length);
+	}
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_c_str_returns_correct_c_string\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;
+}
+
+Status test_my_string_concat_returns_correct_concat_c_string(char* buffer, unsigned long length)
+{
+	//for some reason, strcmp (from string.h) does not work when comparing concated string but my_string_compare does
+	MY_STRING hResult = NULL;
+	MY_STRING hAppend = NULL;
+	MY_STRING hString = NULL;
+	char* string;
+	int compare;
+	Status status;
+
+	hResult =  my_string_init_c_string("hi");
+	hAppend = my_string_init_c_string("hello");
+	hString = my_string_init_c_string("hihello");
+
+	my_string_concat(hResult, hAppend);
+
+	compare = my_string_compare(hResult, hString);
+
+	if (compare != 0)
+	{
+		status = FAILURE;
+		string = my_string_c_str(hResult);
+		printf("Expected to get string \"hihello\" after concat but got following string instead: ");
+		printf("%s\n", string);
+		strncpy(buffer, "test_my_string_concat_returns_correct_concat_c_string\n"
+				"Did not returns correct string after concatenating two strings together\n", length);
+	}
+
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_concat_returns_correct_concat_c_string\n", length);
+	}
+
+	my_string_destroy(&hResult);
+	my_string_destroy(&hAppend);
+	my_string_destroy(&hString);
+	return status;
+}
+
+Status test_my_string_concat_returns_correct_size_after_concat(char* buffer, unsigned long length)
+{
+	MY_STRING hResult = NULL;
+	MY_STRING hAppend = NULL;
+	Status status;
+	
+	hResult = my_string_init_c_string("hi");
+	hAppend = my_string_init_c_string("hello");
+
+	my_string_concat(hResult, hAppend);
+
+	if (my_string_get_size(hResult) != 7)
+	{
+		status = FAILURE;
+		printf("Expected to get size 7 after concatenating two strings but got different size\n");
+		strncpy(buffer, "test_my_string_concat_returns_correct_size_after_concat\n"
+				"Did not have correct size after concatenating two string\n", length);
+	}
+
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_concat_returns_correct_size_after_concat\n", length);
+	}
+
+	my_string_destroy(&hResult);
+	my_string_destroy(&hAppend);
+	return status;
+}
+
+Status test_my_string_empty_returns_TRUE_for_empty_string(char* buffer, unsigned long length)
+{
+	MY_STRING hString = NULL;
+	Status status;
+
+	hString = my_string_init_default();
+
+	if (!my_string_empty(hString))
+	{
+		status = FAILURE;
+		printf("Expected to return TRUE after checking an empty string but got something else\n");
+		strncpy(buffer, "test_my_string_empty_returns_TRUE_for_empty_string\n"
+				"Did not return TRUE after checking an empty string\n", length);
+	}
+
+	else
+	{
+		status = SUCCESS;
+		strncpy(buffer, "test_my_string_empty_returns_TRUE_for_empty_string\n", length);
+	}
+
+	my_string_destroy(&hString);
+	return status;
+}
+
+

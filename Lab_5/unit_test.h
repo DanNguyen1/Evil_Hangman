@@ -22,5 +22,10 @@ Status test_my_string_pop_back_returns_SUCCESS(char* buffer, unsigned long lengt
 Status test_my_string_pop_back_returns_FAILURE_for_empty_string(char* buffer, unsigned long length);
 Status test_my_string_pop_back_decreases_size_by_1(char* buffer, unsigned long length);
 Status test_my_string_pop_back_has_correct_string_after_pop(char* buffer, unsigned long length);
+Status test_my_string_at_returns_correct_char_from_string(char* buffer, unsigned long length);
+Status test_my_string_c_str_returns_correct_c_string(char* buffer, unsigned long length);
+Status test_my_string_concat_returns_correct_concat_c_string(char* buffer, unsigned long length);
+Status test_my_string_concat_returns_correct_size_after_concat(char* buffer, unsigned long length);
+Status test_my_string_empty_returns_TRUE_for_empty_string(char* buffer, unsigned long length);
 
 #endif
