@@ -336,7 +336,7 @@ Status test_my_string_extraction_extracts_correct_word(char* buffer, unsigned lo
 	if (compare != 0)
 	{
 		status = FAILURE;
-		printf("Expected to read word \"floccinaucinihilipilification\" into string object, but did not read right word\n");
+		printf("Expected to read word \"floccinaucinihilipilification\" into string object, but instead read string: %s\n", string);
 		strncpy(buffer, "test_my_string_extraction_extracts_correct_word\n"
 				"Did not successfully extract correct word \"floccinaucinihilipilification\" into object\n", length);
 	}
@@ -386,7 +386,7 @@ Status test_my_string_push_back_doubles_capacity(char* buffer, unsigned long len
 	if (my_string_get_capacity(hString) != 14)
 	{
 		status = FAILURE;
-		printf("Expected to update capacity to 14 after push back, but did not update capacity correctly\n");
+		printf("Expected to update capacity to 14 after push back, but capacity updated to: %d\n", my_string_get_capacity(hString));
 		strncpy(buffer, "test_my_string_push_back_doubles_capacity\n"
 				"Did not correctly update capacity after calling push back\n", length);
 	}
@@ -417,7 +417,7 @@ Status test_my_string_push_back_copies_old_string_and_adds_new_char(char* buffer
 	if(compare != 0)
 	{
 		status = FAILURE;
-		printf("Expected to update string from \"righto\" to \"righton\" but did not update the string correctly after push back\n");
+		printf("Expected to update string from \"righto\" to \"righton\" but did updated string to: %s\n", string);
 		strncpy(buffer, "test_my_string_push_back_copies_old_string_and_adds_new_char\n"
 				"Did not correctly add a new character to the end of string\n", length);
 	}
@@ -492,7 +492,7 @@ Status test_my_string_pop_back_decreases_size_by_1(char* buffer, unsigned long l
 	if(my_string_get_size(hString) != 4)
 	{
 		status = FAILURE;
-		printf("Expected to get size 4 after my_string_pop_back\n");
+		printf("Expected to get size 4 after my_string_pop_back but got size: %d\n", my_string_get_size(hString));
 		strncpy(buffer, "test_my_string_pop_back_decreases_size_by_1\n"
 				"Did not correctly adjust size after pop back\n", length);
 	}
@@ -523,7 +523,7 @@ Status test_my_string_pop_back_has_correct_string_after_pop(char* buffer, unsign
 	if (compare != 0)
 	{
 		status = FAILURE;
-		printf("Expected to get string \"hello\" after pop back, but did not get correct string\n");
+		printf("Expected to get string \"hello\" after pop back, but did got string: %s\n", string);
 		strncpy(buffer, "test_my_string_pop_back_has_correct_string_after_pop\n"
 				"Did not correctly get correct string after pop back\n", length);
 	}
@@ -546,7 +546,7 @@ Status test_my_string_at_returns_correct_char_from_string(char* buffer, unsigned
 	if (*my_string_at(hString, 4) != 't')
 	{
 		status = FAILURE;
-		printf("Expected to get char \'t\' after finding at, but got different char\n");
+		printf("Expected to get char \'t\' after finding at, but got char: %c\n", *my_string_at(hString, 4));
 		strncpy(buffer, "test_my_string_at_returns_correct_char_from_string\n"
 				"Did not get correct char after function call my_string_at\n", length);
 	}
@@ -575,7 +575,7 @@ Status test_my_string_c_str_returns_correct_c_string(char* buffer, unsigned long
 	if (compare != 0)
 	{
 		status = FAILURE;
-		printf("Expected to get string \"hello\" and return as c-string but returned different string\n");
+		printf("Expected to get string \"hello\" and return as c-string but got string: %s\n", string);
 		strncpy(buffer, "test_my_string_c_str_returns_correct_c_string\n"
 				"Did not return correct string after calling function my_string_c_str\n", length);
 	}
@@ -591,7 +591,6 @@ Status test_my_string_c_str_returns_correct_c_string(char* buffer, unsigned long
 
 Status test_my_string_concat_returns_correct_concat_c_string(char* buffer, unsigned long length)
 {
-	//for some reason, strcmp (from string.h) does not work when comparing concated string but my_string_compare does
 	MY_STRING hResult = NULL;
 	MY_STRING hAppend = NULL;
 	MY_STRING hString = NULL;
@@ -643,7 +642,7 @@ Status test_my_string_concat_returns_correct_size_after_concat(char* buffer, uns
 	if (my_string_get_size(hResult) != 7)
 	{
 		status = FAILURE;
-		printf("Expected to get size 7 after concatenating two strings but got different size\n");
+		printf("Expected to get size 7 after concatenating two strings but got size: %d\n", my_string_get_size(hResult));
 		strncpy(buffer, "test_my_string_concat_returns_correct_size_after_concat\n"
 				"Did not have correct size after concatenating two string\n", length);
 	}
