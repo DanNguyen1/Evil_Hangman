@@ -449,12 +449,12 @@ Boolean my_string_empty(MY_STRING hMy_string)
 /**
  * free the memory that holds the c-string in the object and the object itself
  *
- * @param phMy_string
+ * @param pItem
  * 	address of object handle
  */
-void my_string_destroy(MY_STRING* phMy_string){
-	My_string* pMy_string = (My_string*)*phMy_string;
+void my_string_destroy(Item* pItem){
+	My_string* pMy_string = (My_string*)*pItem;
 	free(pMy_string->data);
 	free(pMy_string);
-	*phMy_string = NULL;
+	*pItem = NULL;
 }

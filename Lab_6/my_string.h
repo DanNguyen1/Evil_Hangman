@@ -1,6 +1,7 @@
 #ifndef MY_STRING_H
 #define MY_STRING_H
 #include "status.h"
+#include "generic.h"
 
 typedef void * MY_STRING;
 
@@ -23,6 +24,6 @@ Status my_string_concat(MY_STRING hResult, MY_STRING hAppend);
 
 Boolean my_string_empty(MY_STRING hMy_string);
 
-void my_string_destroy(MY_STRING* phMy_string);
+void my_string_destroy(Item* pItem);
 
 #endif//MY_STRING_H
