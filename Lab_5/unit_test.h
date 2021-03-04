@@ -16,7 +16,7 @@ Status test_my_string_extraction_successfully_extracts(char* buffer, unsigned lo
 Status test_my_string_insertion_successfully_inserts(char* buffer, unsigned long length);
 Status test_my_string_extraction_extracts_correct_word(char* buffer, unsigned long length);
 Status test_my_string_push_back_returns_SUCCESS(char* buffer, unsigned long length);
-Status test_my_string_push_back_doubles_capacity(char* buffer, unsigned long length);
+Status test_my_string_push_back_updates_capacity(char* buffer, unsigned long length);
 Status test_my_string_push_back_copies_old_string_and_adds_new_char(char* buffer, unsigned long length);
 Status test_my_string_pop_back_returns_SUCCESS(char* buffer, unsigned long length);
 Status test_my_string_pop_back_returns_FAILURE_for_empty_string(char* buffer, unsigned long length);

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "unit_test.h"
 
+//test0
 Status test_init_default_returns_nonNULL(char* buffer, unsigned long length)
 {
 	MY_STRING hString = my_string_init_default();
@@ -22,6 +23,7 @@ Status test_init_default_returns_nonNULL(char* buffer, unsigned long length)
 	}	
 }
 
+//test1
 Status test_get_size_on_init_default_returns_0(char* buffer, unsigned long length)
 {
 	MY_STRING hString = NULL;
@@ -46,6 +48,7 @@ Status test_get_size_on_init_default_returns_0(char* buffer, unsigned long lengt
 	return status;
 }
 
+//test2
 Status test_get_capacity_on_init_default_returns_7(char* buffer, unsigned long length)
 {
         MY_STRING hString = NULL;
@@ -70,6 +73,7 @@ Status test_get_capacity_on_init_default_returns_7(char* buffer, unsigned long l
 	return status;
 }
 
+//test3
 Status test_init_c_string_helloworld_returns_nonNULL(char* buffer, unsigned long length)
 {
         MY_STRING hString = NULL;
@@ -90,6 +94,8 @@ Status test_init_c_string_helloworld_returns_nonNULL(char* buffer, unsigned long
         }
 
 }
+
+//test4
 Status test_get_size_on_init_c_string_helloworld_returns_10(char* buffer, unsigned long length)
 {
         MY_STRING hString = NULL;
@@ -114,6 +120,7 @@ Status test_get_size_on_init_c_string_helloworld_returns_10(char* buffer, unsign
         return status;
 }
 
+//test5
 Status test_get_capacity_on_init_c_string_helloworld_returns_11(char* buffer, unsigned long length)
 {
         MY_STRING hString = NULL;
@@ -138,6 +145,7 @@ Status test_get_capacity_on_init_c_string_helloworld_returns_11(char* buffer, un
         return status;
 }
 
+//test6
 Status test_compare_two_strings_returns_0(char* buffer, unsigned long length)
 {
 	MY_STRING hLString = NULL;
@@ -166,6 +174,7 @@ Status test_compare_two_strings_returns_0(char* buffer, unsigned long length)
 	return status;
 }	
 
+//test7
 Status test_compare_two_strings_returns_less_than_0(char* buffer, unsigned long length)
 {
         MY_STRING hLString = NULL;
@@ -194,6 +203,7 @@ Status test_compare_two_strings_returns_less_than_0(char* buffer, unsigned long 
         return status;
 }
 
+//test8
 Status test_compare_two_strings_returns_greater_than_0(char* buffer, unsigned long length)
 {
         MY_STRING hLString = NULL;
@@ -222,6 +232,7 @@ Status test_compare_two_strings_returns_greater_than_0(char* buffer, unsigned lo
         return status;
 }
 
+//test9
 Status test_destroy_does_not_leave_dangling_pointer(char* buffer, unsigned long length)
 {
 	MY_STRING hString = NULL;
@@ -247,6 +258,7 @@ Status test_destroy_does_not_leave_dangling_pointer(char* buffer, unsigned long 
 	return status;
 }
 
+//test10
 Status test_my_string_extraction_successfully_extracts(char* buffer, unsigned long length)
 {
 	MY_STRING hString = NULL;
@@ -283,6 +295,7 @@ Status test_my_string_extraction_successfully_extracts(char* buffer, unsigned lo
 	
 }
 
+//test11
 Status test_my_string_insertion_successfully_inserts(char* buffer, unsigned long length)
 {
 	MY_STRING hString = NULL;
@@ -310,6 +323,7 @@ Status test_my_string_insertion_successfully_inserts(char* buffer, unsigned long
 	return status;
 }
 
+//test12
 Status test_my_string_extraction_extracts_correct_word(char* buffer, unsigned long length)
 {
 	MY_STRING hString = NULL;
@@ -351,6 +365,7 @@ Status test_my_string_extraction_extracts_correct_word(char* buffer, unsigned lo
 	return status;
 }
 
+//test13
 Status test_my_string_push_back_returns_SUCCESS(char* buffer, unsigned long length)
 {
 	MY_STRING hString = NULL;
@@ -375,13 +390,15 @@ Status test_my_string_push_back_returns_SUCCESS(char* buffer, unsigned long leng
 	return status;
 }
 
-Status test_my_string_push_back_doubles_capacity(char* buffer, unsigned long length)
+//test14
+Status test_my_string_push_back_updates_capacity(char* buffer, unsigned long length)
 {
 	MY_STRING hString = NULL;
-	hString = my_string_init_default();
+	hString = my_string_init_c_string("hello!");
 	Status status;
 
-	my_string_push_back(hString, '@');
+	my_string_push_back(hString, '!');
+	my_string_push_back(hString, '!');
 
 	if (my_string_get_capacity(hString) != 14)
 	{

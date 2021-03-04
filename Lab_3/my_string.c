@@ -176,18 +176,21 @@ Status my_string_push_back(MY_STRING hMy_string, char ch)
 	char* temp;
 	int i;
 
-	temp = (char*)malloc(sizeof(char) * pMy_string->capacity * 2);
-	if (temp == NULL)
+	if (pMy_string->capacity >= pMy_string->size)
 	{
-		return FAILURE;
+		temp = (char*)malloc(sizeof(char) * pMy_string->capacity * 2);
+		if (temp == NULL)
+		{
+			return FAILURE;
+		}
+		for (i = 0; i < pMy_string->size; ++i)
+		{
+			temp[i] = pMy_string->data[i];
+		}	
+		free(pMy_string->data);
+		pMy_string->data = temp;
+		pMy_string->capacity *= 2;
 	}
-	for (i = 0; i < pMy_string->size; ++i)
-	{
-		temp[i] = pMy_string->data[i];
-	}
-	free(pMy_string->data);
-	pMy_string->data = temp;
-	pMy_string->capacity *= 2;
 
 	pMy_string->data[pMy_string->size] = ch;
 	pMy_string->size++;
