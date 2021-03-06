@@ -5,9 +5,11 @@
 int test1(void);
 int test2(void);
 int test3(void);
+void test4(void);
 
 int main(void)
 {
+	/*
 	printf("\n");
 	printf("TEST 1 BEGIN\n");
 	int test_1 = test1();
@@ -50,8 +52,11 @@ int main(void)
 		printf("Test passed.\n");
 		printf("TEST 3 FINISHED\n\n");
 	}
+	*/
 
-	printf("ALL TESTS COMPLETE\n");
+	test4();
+
+	printf("\nALL TESTS COMPLETE\n");
 
 	return 0;
 }
@@ -191,3 +196,36 @@ int test3(void)
 	return 1;
 }
 
+void test4(void)
+{
+	MY_STRING* generic_vector = NULL;;
+	int i;
+
+	generic_vector = (MY_STRING*)malloc(sizeof(MY_STRING) * 100);
+	if (NULL == generic_vector)
+	{
+		printf("Could not allocate space for vector of My_string objects, test failed...\n");
+		return;
+	}
+
+	for(i = 0; i < 100; ++i)
+	{
+		generic_vector[i] = NULL;
+	}
+
+	generic_vector[0] = my_string_init_c_string("COPY ME!");
+
+	for(i = 1; i < 100; ++i)	
+	{
+		my_string_assignment(&(generic_vector[i]), generic_vector[0]);
+	}	
+
+	for(i = 0; i < 100; ++i)
+	{
+		printf("%d: ", i + 1);
+		my_string_insertion(generic_vector[i], stdout);
+		printf("\n");
+		my_string_destroy(&generic_vector[i]);
+	}
+	free(generic_vector);
+}

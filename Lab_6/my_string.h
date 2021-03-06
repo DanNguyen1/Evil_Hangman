@@ -24,6 +24,8 @@ Status my_string_concat(MY_STRING hResult, MY_STRING hAppend);
 
 Boolean my_string_empty(MY_STRING hMy_string);
 
+void my_string_assignment(Item* pLeft, Item Right);
+
 void my_string_destroy(Item* pItem);
 
 #endif//MY_STRING_H

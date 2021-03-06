@@ -446,6 +446,47 @@ Boolean my_string_empty(MY_STRING hMy_string)
 	return (Boolean)(pMy_string->size <= 0);
 }
 
+void my_string_assignment(Item* pLeft, Item Right)
+{
+	My_string* Left = (My_string*)*pLeft;
+	My_string* pRight = (My_string*)Right;
+	My_string* temp;
+	int i;
+
+	if (*pLeft == NULL)
+	{
+		temp = (My_string*)malloc(sizeof(My_string));
+		if (temp != NULL)
+		{
+			temp->size = pRight->size;
+			temp->capacity = pRight->capacity;
+			temp->data = (char*)malloc(sizeof(char) *(unsigned long)temp->capacity);
+			if (NULL == temp->data)
+			{
+				free(temp);
+				return;
+			}
+
+			for(i = 0; i < pRight->size; ++i)
+			{
+				temp->data[i] = pRight->data[i];
+			}	
+		}
+		*pLeft = (Item)temp;
+		return;
+	}
+
+	else
+	{
+		Left->size = 0;
+		
+		for(i = 0; i < pRight->size; ++i)
+		{
+			my_string_push_back(*pLeft, pRight->data[i]);
+		}
+	}
+}
+
 /**
  * free the memory that holds the c-string in the object and the object itself
  *
