@@ -46,8 +46,8 @@ int main(void)
 		}
 		else
 		{
-			// printf("PASS: Test %d passed\n", i);
-			// printf("\t%s\n", buffer);
+			printf("PASS: Test %d passed\n", i);
+			printf("\t%s\n", buffer);
 			success_count++;
 		}
 	}

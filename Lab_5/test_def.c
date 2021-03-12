@@ -18,7 +18,7 @@ Status test_init_default_returns_nonNULL(char* buffer, unsigned long length)
 	else
 	{
 		my_string_destroy(&hString);
-		strncpy(buffer, "\ttest_init_default_returns_nonNULL\n", length);
+		strncpy(buffer, "test_init_default_returns_nonNULL\n", length);
 		return SUCCESS;
 	}	
 }
@@ -89,7 +89,7 @@ Status test_init_c_string_helloworld_returns_nonNULL(char* buffer, unsigned long
         else
         {
                 my_string_destroy(&hString);
-                strncpy(buffer, "\ttest_init_c_string_helloworld_returns_nonNULL\n", length);
+                strncpy(buffer, "test_init_c_string_helloworld_returns_nonNULL\n", length);
                 return SUCCESS;
         }
 
