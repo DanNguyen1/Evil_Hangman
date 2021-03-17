@@ -198,15 +198,9 @@ int test3(void)
 
 void test4(void)
 {
-	MY_STRING* generic_vector = NULL;;
 	int i;
 
-	generic_vector = (MY_STRING*)malloc(sizeof(MY_STRING) * 100);
-	if (NULL == generic_vector)
-	{
-		printf("Could not allocate space for vector of My_string objects, test failed...\n");
-		return;
-	}
+	MY_STRING generic_vector[100];
 
 	for(i = 0; i < 100; ++i)
 	{
@@ -227,5 +221,4 @@ void test4(void)
 		printf("\n");
 		my_string_destroy(&generic_vector[i]);
 	}
-	free(generic_vector);
 }
