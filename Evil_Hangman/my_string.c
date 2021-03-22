@@ -446,6 +446,15 @@ Boolean my_string_empty(MY_STRING hMy_string)
 	return (Boolean)(pMy_string->size <= 0);
 }
 
+/*
+ * perform a deep copy from one object to another object, copying its size and data over from one object to another
+ *
+ * @param pLeft
+ * 	pointer to object to be copied into it
+ *
+ * @param Right
+ * 	object to be copied from
+ */
 Status my_string_assignment(Item* pLeft, Item Right)
 {
 	My_string* Left = (My_string*)*pLeft;
@@ -487,6 +496,33 @@ Status my_string_assignment(Item* pLeft, Item Right)
 		for(i = 0; i < pRight->size; ++i)
 		{
 			my_string_push_back(*pLeft, pRight->data[i]);
+		}
+	}
+
+	return SUCCESS;
+}
+
+Status get_word_key_value(MY_STRING current_word_family, MY_STRING new_key, MY_STRING word, char guess)
+{
+	int i;
+	char chGuess = tolower(guess);
+	My_string* word_obj = (My_string*)word;
+	My_string* word_family_obj = (My_string*)current_word_family;
+	My_string* new_key_obj = (My_string*)new_key;
+
+	for (i = 0, new_key_obj->size = 0; i < my_string_get_size(current_word_family); ++i)
+	{
+		if (!my_string_push_back(new_key, word_family_obj->data[i]))
+		{
+			return FAILURE;
+		}
+	}
+
+	for (i = 0; i < my_string_get_size(word); ++i)
+	{
+		if (word_obj->data[i] == chGuess)
+		{
+			new_key_obj->data[i] = chGuess;
 		}
 	}
 

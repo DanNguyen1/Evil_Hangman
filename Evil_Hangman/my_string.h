@@ -26,6 +26,8 @@ Boolean my_string_empty(MY_STRING hMy_string);
 
 Status my_string_assignment(Item* pLeft, Item Right);
 
+Status get_word_key_value(MY_STRING current_word_family, MY_STRING new_key, MY_STRING word, char guess);
+
 void my_string_destroy(Item* pItem);
 
 #endif//MY_STRING_H
