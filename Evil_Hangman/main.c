@@ -51,17 +51,15 @@ int main(void)
 	printf("\tThe 0 word is %s\n", my_string_c_str(generic_vector_at(dictionary[6], 0)));
         printf("\tThe 14382 word is %s\n", my_string_c_str(generic_vector_at(dictionary[6], 14382)));
 
-	MY_STRING word = my_string_init_c_string("hihello");
+	MY_STRING word = my_string_init_c_string("The");
 
-	MY_STRING current_key = my_string_init_c_string("-------");
+	MY_STRING current_key = my_string_init_c_string("---");
 
-	MY_STRING new_key = my_string_init_c_string("-------");
+	MY_STRING new_key = my_string_init_default();
 
-	get_word_key_value(current_key, new_key, word, 'h');
+	get_word_key_value(current_key, new_key, word, 't');
 
 	my_string_assignment(&current_key, new_key);
-
-	get_word_key_value(current_key, new_key, word, 'l');
 
 	printf("%s\n", my_string_c_str(new_key));
 

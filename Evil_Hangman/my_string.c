@@ -505,7 +505,7 @@ Status my_string_assignment(Item* pLeft, Item Right)
 Status get_word_key_value(MY_STRING current_word_family, MY_STRING new_key, MY_STRING word, char guess)
 {
 	int i;
-	char chGuess = tolower(guess);
+	char chGuess = (char)tolower(guess);
 	My_string* word_obj = (My_string*)word;
 	My_string* word_family_obj = (My_string*)current_word_family;
 	My_string* new_key_obj = (My_string*)new_key;
@@ -520,7 +520,7 @@ Status get_word_key_value(MY_STRING current_word_family, MY_STRING new_key, MY_S
 
 	for (i = 0; i < my_string_get_size(word); ++i)
 	{
-		if (word_obj->data[i] == chGuess)
+		if ((char)(tolower(word_obj->data[i])) == chGuess)
 		{
 			new_key_obj->data[i] = chGuess;
 		}
