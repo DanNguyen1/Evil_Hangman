@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "generic_vector.h"
+#include "my_string.h"
 
 struct generic_vector  //the known type
 {
@@ -118,6 +119,47 @@ Item generic_vector_at(GENERIC_VECTOR hVector, int index)
 
 	return (pVector->data[index]);
 }
+
+Status generic_vector_assignment(Item* pLeft, Item Right)
+{
+        Generic_vector* Left = (Generic_vector*)pLeft;
+        Generic_vector* pRight = (Generic_vector*)Right;
+        Generic_vector* temp;
+        int i;
+
+        if (*pLeft == NULL)
+        {
+                temp = generic_vector_init_default(my_string_assignment, my_string_destroy);
+                *pLeft = (Item)temp;
+
+		for (i = 0; i < pRight->size; ++i)
+		{
+			if(!generic_vector_push_back(*pLeft, generic_vector_at(Right, i)))
+			{
+				return FAILURE;
+			}
+		}
+        }
+	else
+	{
+        	Left->size = 0;
+	
+      		for (i = 0; i < pRight->size; ++i)
+        	{	
+                	if (generic_vector_at(*pLeft, i) != NULL)
+                	{	
+                        	my_string_destroy(generic_vector_at(*pLeft, i));
+			}
+			if (!generic_vector_push_back(*pLeft, generic_vector_at(Right, i)))
+			{
+				return FAILURE;
+			}
+		}
+	}
+
+	return SUCCESS;
+}
+
 
 void generic_vector_destroy(GENERIC_VECTOR* phVector)
 {

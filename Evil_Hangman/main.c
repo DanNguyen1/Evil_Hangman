@@ -9,7 +9,8 @@
 int main(void)
 {
 	GENERIC_VECTOR dictionary[30];
-	Node* new_word_family;
+	GENERIC_VECTOR current_family = NULL;
+	Node* new_word_family = NULL;
 	MY_STRING hString = NULL;
 	MY_STRING current_key = NULL;
 	MY_STRING new_key = NULL;
@@ -48,8 +49,13 @@ int main(void)
 
 	new_word_family = get_largest_family(root);
 
-	printf("key of new largest family is: %s\n", my_string_c_str(get_key(new_word_family)));
-	printf("size of new largest family is: %d\n", generic_vector_get_size(get_word_family(new_word_family))); 
+	generic_vector_assignment(&current_family, get_word_family(new_word_family));
+	my_string_assignment(&current_key, get_key(new_word_family));
+
+	tree_destroy(&root);
+
+	printf("key of new largest family is: %s\n", my_string_c_str(current_key));
+	printf("size of new largest family is: %d\n", generic_vector_get_size(current_family)); 
 
 	for(i = 0; i < MAX_WORD_SIZE; ++i)
 	{
@@ -58,14 +64,13 @@ int main(void)
 
 	fclose(dict_txt);
 
+	generic_vector_destroy(&current_family);
+
 	my_string_destroy(&hString);
 
 	my_string_destroy(&current_key);
 
-	my_string_destroy(&new_key);
-
-	tree_destroy(&root);
-		
+	my_string_destroy(&new_key);	
 
 	return 0;
 }
