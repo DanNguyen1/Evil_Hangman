@@ -205,35 +205,47 @@ int height (Node* pRoot)
 	return max(height(pRoot->left), height(pRoot->right)) + 1;
 }
 
-GENERIC_VECTOR get_largest_family(Node* pRoot)
+Node* get_largest_family(Node* pRoot)
 {
 	if (pRoot == NULL)
 	{
 		return NULL;
 	}
 
-	GENERIC_VECTOR largest_left = get_largest_family(pRoot->left);
-	GENERIC_VECTOR largest_right = get_largest_family(pRoot->right);
-	GENERIC_VECTOR largest;
+	Node* largest_left = get_largest_family(pRoot->left);
+	Node* largest_right = get_largest_family(pRoot->right);
+	Node* largest;
 
 	if (largest_left == NULL && largest_right == NULL)
 	{
-		return pRoot->word_family;
+		return pRoot;
 	}	
 	else if (largest_left == NULL && largest_right != NULL)
 	{
-		return (generic_vector_get_size(pRoot->word_family) > generic_vector_get_size(largest_right) ? pRoot->word_family : largest_right);
+		return (generic_vector_get_size(pRoot->word_family) > generic_vector_get_size(largest_right->word_family) ? pRoot : largest_right);
 	}
 	else if (largest_left != NULL && largest_right == NULL)
 	{
-		return (generic_vector_get_size(pRoot->word_family) > generic_vector_get_size(largest_left) ? pRoot->word_family : largest_left);
+		return (generic_vector_get_size(pRoot->word_family) > generic_vector_get_size(largest_left->word_family) ? pRoot : largest_left);
 	}
 	else
 	{
-		largest = (generic_vector_get_size(largest_left) > generic_vector_get_size(largest_right) ? largest_left : largest_right);
-		return (generic_vector_get_size(pRoot->word_family) > generic_vector_get_size(largest) ? pRoot->word_family : largest);
+		largest = (generic_vector_get_size(largest_left->word_family) > generic_vector_get_size(largest_right->word_family) ? largest_left : largest_right);
+		return (generic_vector_get_size(pRoot->word_family) > generic_vector_get_size(largest->word_family) ? pRoot : largest);
 	}	
 }
+
+
+GENERIC_VECTOR get_word_family(Node* pRoot)
+{
+	return pRoot->word_family;
+}
+
+MY_STRING get_key(Node* pRoot)
+{
+	return pRoot->key;
+}
+
 
 void tree_destroy(Node** pRoot)
 {

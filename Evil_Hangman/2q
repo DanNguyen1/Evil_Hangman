@@ -48,8 +48,8 @@ int main(void)
 
 	new_word_family = get_largest_family(root);
 
-	printf("key of new largest family is: %s\n", my_string_c_str(get_key(new_word_family)));
-	printf("size of new largest family is: %d\n", generic_vector_get_size(get_word_family(new_word_family))); 
+	printf("key of new largest family is: %s\n", my_string_c_str(new_word_family->key));
+	printf("size of new largest family is: %d\n", generic_vector_get_size(new_word_family->word_family)); 
 
 	for(i = 0; i < MAX_WORD_SIZE; ++i)
 	{

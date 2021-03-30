@@ -19,7 +19,9 @@ void left_right_rotate(Node** pRoot);
 int check_balance(Node* pRoot);
 int height (Node* pRoot);
 
-GENERIC_VECTOR get_largest_family(Node* pRoot);
+Node* get_largest_family(Node* pRoot);
+GENERIC_VECTOR get_word_family(Node* pRoot);
+MY_STRING get_key(Node* pRoot);
 
 void tree_destroy(Node** pRoot);
 
