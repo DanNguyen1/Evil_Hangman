@@ -1,3 +1,6 @@
+#ifndef GENERIC_VECTOR_H
+#define GENERIC_VECTOR_H
+
 #include "status.h"
 #include "generic.h"
 
@@ -20,3 +23,4 @@ Boolean generic_vector_empty(GENERIC_VECTOR hVector);
 
 
 void generic_vector_destroy(GENERIC_VECTOR* phVector);
+#endif//GENERIC_VECTOR_H
