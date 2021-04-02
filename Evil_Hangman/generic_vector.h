@@ -21,6 +21,7 @@ Item generic_vector_at(GENERIC_VECTOR hVector, int index);
 Status generic_vector_assignment(Item* pLeft, Item Right);
 
 Status generic_vector_pop_back(GENERIC_VECTOR hVector);
+
 Boolean generic_vector_empty(GENERIC_VECTOR hVector);
 
 
