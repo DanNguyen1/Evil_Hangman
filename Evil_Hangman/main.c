@@ -8,14 +8,25 @@
 
 #define MAX_WORD_SIZE 30
 
+enum input_type
+{
+	letter,
+	all_letters_guessed,
+	incorrect_word,
+	correct_word
+};
+
+typedef enum input_type Input_type;
+
 int get_word_length(void);
 int get_num_guesses(void);
-int get_guess(MY_STRING guessed_letters, char *guess, GENERIC_VECTOR current_family);
+Input_type get_guess(MY_STRING guessed_letters, char *guess, GENERIC_VECTOR current_family);
 Boolean get_running_total(void);
 Status generate_first_key(MY_STRING key, int word_length);
 void input(MY_STRING read);
 void print_guessed_letters(MY_STRING guessed_letters);
 void clear_keyboard_buffer(void);
+
 
 int main(void)
 {
@@ -31,7 +42,7 @@ int main(void)
 	int i;
 	int word_length;
 	int num_guesses;
-	int check;
+	Input_type check;
 	Boolean running_total;
 	char play_again;
 	char guess;
@@ -95,7 +106,7 @@ int main(void)
 			printf("Enter guess: ");
 			check = get_guess(guessed_letters, &guess, current_family);
 			
-			if (check == 1)
+			if (check == letter)
 			{
 				for(i = 0; i < generic_vector_get_size(current_family); ++i)
 				{
@@ -127,7 +138,7 @@ int main(void)
 				tree_destroy(&root);
 			}
 
-			else if (check == 2)
+			else if (check == all_letters_guessed)
 			{
 				printf("You have already guessed every letter.\n");
 				if (running_total)
@@ -136,12 +147,16 @@ int main(void)
 				}
 			}
 			
-			else if (check < 0)
+			else if (check == incorrect_word)
 			{
 				printf("Sorry, that word is incorrect.\n");
+				if (running_total)
+				{
+					printf("The computer has %d possibilities remaining. \n", generic_vector_get_size(current_family));
+				}
 				num_guesses--;
 			}
-			else if (check == 0)
+			else if (check == correct_word)
 			{
 				printf("That is the correct word!\n");
 				break;
@@ -154,6 +169,10 @@ int main(void)
 		if (num_guesses > 0)
 		{
 			printf("Congratulations!\n");
+		}
+		else
+		{
+			printf("The word was: %s\n", my_string_c_str(generic_vector_at(current_family, 0)));
 		}
 
 		generic_vector_destroy(&current_family); //might cause problems, does not check for every element........
@@ -217,7 +236,7 @@ int get_num_guesses(void)
         return num_guesses;
 }
 
-int get_guess(MY_STRING guessed_letters, char *guess, GENERIC_VECTOR current_family)
+Input_type get_guess(MY_STRING guessed_letters, char *guess, GENERIC_VECTOR current_family)
 {
 	MY_STRING read = my_string_init_default();
 	MY_STRING compare = NULL;
@@ -248,12 +267,12 @@ int get_guess(MY_STRING guessed_letters, char *guess, GENERIC_VECTOR current_fam
 		my_string_push_back(guessed_letters, *(my_string_at(read, 0)));
 		*guess = *(my_string_at(read, 0));
 		my_string_destroy(&read);
-		return 1;
+		return letter;
 	}
 
 	else if (my_string_get_size(read) == 1 && my_string_get_size(guessed_letters) >= 26)
 	{
-		return 2;
+		return all_letters_guessed;
 
 	}
 
@@ -265,18 +284,18 @@ int get_guess(MY_STRING guessed_letters, char *guess, GENERIC_VECTOR current_fam
 			if (my_string_compare(read, compare) == 0)
 			{
 				my_string_destroy(&read);
-				return 0;
+				return correct_word;
 			}
 			else
 			{
 				my_string_destroy(&read);
-				return -1;
+				return incorrect_word;
 			}
 		}
 		else
 		{
 			my_string_destroy(&read);
-			return -1;
+			return incorrect_word;
 		}
 	}
 }
