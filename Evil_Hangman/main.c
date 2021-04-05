@@ -67,6 +67,7 @@ int main(void)
 		word_length = get_word_length();
 		while (generic_vector_get_size(dictionary[word_length]) <= 0)
 		{
+			clear_keyboard_buffer();
 			printf("Sorry, there are no words in the dictionary with this length.\n");
 			word_length = get_word_length();
 		}
@@ -212,6 +213,7 @@ int get_word_length(void)
 
 	while(word_length < 0 || word_length > 29)
 	{
+		clear_keyboard_buffer();
 		printf("Please choose a word length from 0 to 29:\n");
 		scanf("%d", &word_length);
 	}
@@ -229,6 +231,7 @@ int get_num_guesses(void)
 
 	while (num_guesses <= 0)
 	{
+		clear_keyboard_buffer();
 		printf("How many guesses would you like to have?\n");
 		scanf("%d", &num_guesses);
 	}
@@ -272,6 +275,7 @@ Input_type get_guess(MY_STRING guessed_letters, char *guess, GENERIC_VECTOR curr
 
 	else if (my_string_get_size(read) == 1 && my_string_get_size(guessed_letters) >= 26)
 	{
+		my_string_destroy(&read);
 		return all_letters_guessed;
 
 	}
