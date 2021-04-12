@@ -2,9 +2,9 @@ CC = clang
 CFLAGS = -g --std=c99 -Weverything
 OBJECTS = main.o string.o generic_vector.o avl_tree.o max.o
 TESTOBJ = string.o unit_test.o test_def.o
-ALL: string_driver unit_test
-string_driver: $(OBJECTS)
-	$(CC) $(CFLAGS) -o string_driver $(OBJECTS)
+ALL: evil_hangman unit_test
+evil_hangman: $(OBJECTS)
+	$(CC) $(CFLAGS) -o evil_hangman $(OBJECTS)
 main.o: main.c 
 	$(CC) $(CFLAGS) -c main.c -o main.o
 string.o: my_string.c 
@@ -22,5 +22,5 @@ unit_test.o: unit_test.c
 test_def.o: test_def.c
 	$(CC) $(CFLAGS) -c test_def.c -o test_def.o
 clean:
-	-rm string_driver $(OBJECTS) unit_test unit_test.o test_def.o
+	-rm evil_hangman $(OBJECTS) unit_test unit_test.o test_def.o
 
