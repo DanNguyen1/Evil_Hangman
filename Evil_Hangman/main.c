@@ -8,15 +8,14 @@
 
 #define MAX_WORD_SIZE 30
 
-enum input_type
+//type to check what player has inputted, and what the condition of the game is
+typedef enum input_type
 {
-	letter,
-	all_letters_guessed,
-	incorrect_word,
-	correct_word
-};
-
-typedef enum input_type Input_type;
+	letter, //basic letter
+	all_letters_guessed, //if all letters are guessed and player tries to guess another letter
+	incorrect_word, 
+	correct_word 
+} Input_type;
 
 int get_word_length(void);
 int get_num_guesses(void);
@@ -56,6 +55,7 @@ int main(void)
 	dict_txt = fopen("../dictionary.txt", "r");
 	hString = my_string_init_default();
 
+	//partitioning dicitonary into generic vectors......
 	while(my_string_extraction(hString, dict_txt))
 	{
 		generic_vector_push_back(dictionary[my_string_get_size(hString)], hString);
@@ -64,6 +64,7 @@ int main(void)
 	// main game loop
 	do
 	{
+		//inital prompts (word length, number of guesses, debugging mode)
 		word_length = get_word_length();
 		while (generic_vector_get_size(dictionary[word_length]) <= 0)
 		{
@@ -82,7 +83,7 @@ int main(void)
 
 		current_key = my_string_init_default();
 		
-		// game initialization
+		// game initializations
 		if(!generate_first_key(current_key, word_length))
 		{
 			printf("Unable to generate first key, memory problem?\n");
@@ -95,7 +96,7 @@ int main(void)
 
 		guessed_letters = my_string_init_default();
 
-		// guess loop
+		// guessing loop
 		while (num_guesses > 0)
 		{
 			printf("You have %d guesses left.\n", num_guesses);
@@ -105,8 +106,9 @@ int main(void)
 			printf("Word: %s\n", my_string_c_str(current_key));
 
 			printf("Enter guess: ");
-			check = get_guess(guessed_letters, &guess, current_family);
+			check = get_guess(guessed_letters, &guess, current_family); //check is used to determine type of input player input and the condition of the input
 			
+			// guessing a letter
 			if (check == letter)
 			{
 				for(i = 0; i < generic_vector_get_size(current_family); ++i)
@@ -176,7 +178,8 @@ int main(void)
 			printf("The word was: %s\n", my_string_c_str(generic_vector_at(current_family, 0)));
 		}
 
-		generic_vector_destroy(&current_family); //might cause problems, does not check for every element........
+		//clean up for next game/end game
+		generic_vector_destroy(&current_family); 
 
 		my_string_destroy(&current_key);
 
@@ -190,7 +193,7 @@ int main(void)
 
 	} while (play_again == 'y');
 
-	//clean-up     
+	//final clean-up for end game
 	for(i = 0; i < MAX_WORD_SIZE; ++i)
         {
                 generic_vector_destroy(&(dictionary[i]));
@@ -256,6 +259,9 @@ Input_type get_guess(MY_STRING guessed_letters, char *guess, GENERIC_VECTOR curr
 			if (*(my_string_at(read, 0)) == *(my_string_at(guessed_letters, i)))
 			{	
 				printf("You have already guessed that letter. Please enter another letter:\n");
+				printf("Used letters: ");
+				print_guessed_letters(guessed_letters);
+				printf("\n");
 				my_string_pop_back(read);
                 		scanf(" %c", &ch);
 				my_string_push_back(read, ch);
