@@ -79,8 +79,6 @@ Status generic_vector_push_back(GENERIC_VECTOR hVector, Item my_string)
 		free(pVector->data);
 		pVector->data = temp;
 	}
-	//BROKEN
-	//pVector->data[pVector->size] = value;
 	pVector->item_assignment(&(pVector->data[pVector->size]), my_string);
 	pVector->size++;
 	return SUCCESS;
