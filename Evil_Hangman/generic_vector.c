@@ -132,7 +132,7 @@ Status generic_vector_assignment(Item* pLeft, Item Right)
 
 		for (i = 0; i < pRight->size; ++i)
 		{
-			if(!generic_vector_push_back(*pLeft, generic_vector_at(Right, i)))
+			if(!generic_vector_push_back(*pLeft, pRight->data[i]))
 			{
 				return FAILURE;
 			}
@@ -144,20 +144,20 @@ Status generic_vector_assignment(Item* pLeft, Item Right)
 	
       		for (i = 0; i < pRight->size; ++i)
         	{
-                	if (generic_vector_at(*pLeft, i) != NULL)
+                	if (Left->data[i] != NULL)
                 	{
-                        	my_string_destroy(generic_vector_at(*pLeft, i));
+				Left->item_destroy(&(Left->data[i]));
 			}
-			if (!generic_vector_push_back(*pLeft, generic_vector_at(Right, i)))
+			if (!generic_vector_push_back(*pLeft, pRight->data[i]))
 			{
 				return FAILURE;
 			}
 		}
 		for(; i < Left->capacity; ++i)
 		{
-			if (generic_vector_at(*pLeft, i) != NULL)
+			if (Left->data[i] != NULL)
 			{
-				my_string_destroy(generic_vector_at(*pLeft, i));
+				Left->item_destroy(&(Left->data[i]));
 			}
 		}
 	}
@@ -171,12 +171,9 @@ void generic_vector_destroy(GENERIC_VECTOR* phVector)
 	Generic_vector* pVector = (Generic_vector*)*phVector;
 	int i;
 	//destroy all of the objects in the vector
-	for (i = 0; i < pVector->capacity; i++)
+	for (i = 0; i < pVector->size; i++)
 	{
-		if (pVector->data[i] != NULL)
-		{
-			pVector->item_destroy(&(pVector->data[i]));
-		}
+		pVector->item_destroy(&(pVector->data[i]));
 	}
 
 	free(pVector->data);
