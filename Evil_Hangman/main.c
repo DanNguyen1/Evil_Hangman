@@ -312,13 +312,13 @@ Input_type get_guess(MY_STRING guessed_letters, char* guess, GENERIC_VECTOR curr
                 		scanf(" %c", &ch);
 				my_string_push_back(read, ch);
 				i = 0;
+				clear_keyboard_buffer();
 			}
 			else
 			{
 				++i;
 			}
 		}
-
 		my_string_push_back(guessed_letters, *(my_string_at(read, 0))); //put guessed letter into list of already guessed letters
 		*guess = *(my_string_at(read, 0)); //change external guess variable to guessed letters (for main to validate after function call)
 		my_string_destroy(&read); 
