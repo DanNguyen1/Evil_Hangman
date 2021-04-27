@@ -428,11 +428,13 @@ void input(MY_STRING read)
 	do
         {
                 scanf("%c", &ch);
+		ch = (char)tolower(ch);
                 if (ch == '\n') {
                         break;
                 }
                 my_string_push_back(read, ch);
         } while (ch != '\n');
+
 }
 
 /**
